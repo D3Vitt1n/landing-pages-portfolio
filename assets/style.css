@@ -42,3 +42,18 @@ h2{font-size:clamp(28px,7vw,38px);line-height:1.23}
 .pilates .hero-visual{border-radius:100px 100px 12px 12px}
 .demo-bar{padding:10px 16px;line-height:1.65}.demo-bar a{display:inline-block;margin-left:4px}
 }
+
+/* Motion shared by the three demonstrative landing pages. */
+.button{transition:transform .2s ease,box-shadow .2s ease}
+.button:hover{transform:translateY(-2px);box-shadow:0 8px 22px #14251e18}
+.demo header{background:var(--paper)}
+.demo .hero-visual img{animation:demo-photo-in 1s ease both}
+.demo .hero-grid>div:first-child{animation:demo-content-in .7s ease both}
+.demo section.motion-visible{animation:demo-content-in .65s ease both}
+.demo .feature{border-radius:0 0 8px 8px;transition:transform .25s ease}
+.demo .feature:hover{transform:translateY(-4px)}
+.demo details[open] p{animation:demo-content-in .3s ease both}
+@keyframes demo-photo-in{from{opacity:.65;transform:scale(1.035)}to{opacity:1;transform:scale(1)}}
+@keyframes demo-content-in{from{opacity:.3;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@media(hover:none){.button:hover,.demo .feature:hover{transform:none;box-shadow:none}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
