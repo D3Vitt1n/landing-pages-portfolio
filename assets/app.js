@@ -10,3 +10,37 @@ if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-mot
   }, {threshold: 0.08});
   document.querySelectorAll('.demo section').forEach(section => motionObserver.observe(section));
 }
+
+const breathingToggle = document.querySelector('#breathing-toggle');
+const breathingArt = document.querySelector('.breathing-art');
+const breathingLabel = document.querySelector('#breathing-label');
+if (breathingToggle && breathingArt && breathingLabel) {
+  let breathingTimer;
+  let expanded = false;
+  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function stopBreathing() {
+    clearInterval(breathingTimer);
+    breathingArt.classList.remove('is-breathing');
+    breathingToggle.setAttribute('aria-pressed', 'false');
+    breathingToggle.textContent = 'Experimentar o movimento ↗';
+    breathingLabel.textContent = 'No seu tempo.';
+  }
+  breathingToggle.addEventListener('click', () => {
+    if (breathingToggle.getAttribute('aria-pressed') === 'true') { stopBreathing(); return; }
+    if (motionPreference.matches) {
+      breathingLabel.textContent = 'Movimento reduzido ativado.';
+      return;
+    }
+    breathingArt.classList.add('is-breathing');
+    breathingToggle.setAttribute('aria-pressed', 'true');
+    breathingToggle.textContent = 'Pausar o movimento';
+    expanded = false;
+    breathingLabel.textContent = 'Deixe o ritmo acontecer.';
+    breathingTimer = setInterval(() => {
+      expanded = !expanded;
+      breathingLabel.textContent = expanded ? 'Um momento para você.' : 'Deixe o ritmo acontecer.';
+    }, 4000);
+  });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stopBreathing(); });
+  motionPreference.addEventListener('change', stopBreathing);
+}
